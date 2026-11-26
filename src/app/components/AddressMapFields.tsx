@@ -223,22 +223,24 @@ export default function AddressMapFields() {
 
   useEffect(() => {
     if (!origin || !destination) {
-      setRoute([]);
-      setRouteInfo("");
-      return;
-    }
-
+  setRoute([]);
+  setRouteInfo("");
+  setRouteLoading(false);
+  return;
+}
+const routeOrigin = origin;
+    const routeDestination = destination;
     const controller = new AbortController();
 
     async function calculateRoute() {
       try {
         setRouteLoading(true);
 
-        const url =
+                const url =
           `https://router.project-osrm.org/route/v1/driving/` +
-          `${origin[1]},${origin[0]};${destination[1]},${destination[0]}` +
+          `${routeOrigin[1]},${routeOrigin[0]};${routeDestination[1]},${routeDestination[0]}` +
           "?overview=full&geometries=geojson";
-
+          
         const response = await fetch(url, {
           signal: controller.signal,
         });
